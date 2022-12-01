@@ -1,0 +1,27 @@
+{
+  "name": "todoister",
+  "version": "1.0.0",
+  "description": "This a very simple and classy to-do list to make your life well-planned.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beyond88/todoister.git"
+  },
+  "keywords": [
+    "to-do",
+    "list"
+  ],
+  "author": "Mohiuddin Abdul Kader",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beyond88/todoister/issues"
+  },
+  "homepage": "https://github.com/beyond88/todoister#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}
