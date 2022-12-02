@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 const AuthRoutes = require("./routes/AuthRoutes");
 
 //route middlewares
-app.use("/api/user", AuthRoutes);
+app.use("/user", AuthRoutes);
 
 app.get("/", (req, res, next) => {
     res.render('pages/index');
