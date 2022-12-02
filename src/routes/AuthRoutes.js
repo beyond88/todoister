@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 router.get("/login", (req, res) => {
-    res.json({ message: "I am from login route" });
+    res.render('pages/login');
 })
 
 router.post("/login", (req, res) => {
