@@ -6,7 +6,15 @@ router.get("/login", (req, res) => {
     res.json({ message: "I am from login route" });
 })
 
+router.post("/login", (req, res) => {
+    res.json({ message: "I am from login route" });
+})
+
 router.get("/register", (req, res) => {
+    res.json({ message: "I am from register route" });
+})
+
+router.post("/register", (req, res) => {
     res.json({ message: "I am from register route" });
 })
 
