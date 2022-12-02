@@ -1,21 +1,17 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const controller = require("../controllers/auth.controller");
 
 router.get("/login", (req, res) => {
     res.render('pages/login');
 })
-
-router.post("/login", (req, res) => {
-    res.json({ message: "I am from login route" });
-})
+router.post("/login", controller.signin)
 
 router.get("/register", (req, res) => {
-    res.json({ message: "I am from register route" });
+    res.render('pages/register');
 })
+router.post("/register", controller.signup)
 
-router.post("/register", (req, res) => {
-    res.json({ message: "I am from register route" });
-})
+router.get("/logout", controller.signout)
+
 
 module.exports = router;

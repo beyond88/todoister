@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Todoister - Login</title>
+    <title>Todoister - Register</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
@@ -17,12 +17,23 @@
     <div class="container">
       <div class="screen">
         <div class="screen__content">
-          <form class="login" action="/user/login" method="post">
+          <form class="login" action="/user/register" method="post">
+            <div class="login__field">
+              <i class="login__icon fas fa-user"></i>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="login__input"
+                placeholder="Name"
+              />
+            </div>
             <div class="login__field">
               <i class="login__icon fas fa-envelope"></i>
               <input
                 type="text"
                 name="email"
+                id="email"
                 class="login__input"
                 placeholder="Email"
               />
@@ -32,17 +43,19 @@
               <input
                 type="password"
                 name="password"
+                id="password"
                 class="login__input"
                 placeholder="Password"
               />
             </div>
+
             <button class="button login__submit" name="submit">
-              <span class="button__text">Log In Now</span>
+              <span class="button__text">Signup</span>
               <i class="button__icon fas fa-chevron-right"></i>
             </button>
           </form>
           <div class="social-login">
-            <h3>Log in via</h3>
+            <h3>Signup in via</h3>
             <div class="social-icons">
               <a href="#" class="social-login__icon fab fa-google"></a>
               <a href="#" class="social-login__icon fab fa-facebook"></a>

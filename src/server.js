@@ -31,9 +31,11 @@ app.use((req, res, next) => {
 
 //import routes
 const AuthRoutes = require("./routes/AuthRoutes");
+const DashboarRoutes = require("./routes/DashboardRoutes");
 
 //route middlewares
 app.use("/user", AuthRoutes);
+app.use("/dashboard", DashboarRoutes);
 
 app.get("/", (req, res, next) => {
     res.render('pages/index');
