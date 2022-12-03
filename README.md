@@ -1,2 +1,48 @@
-# todoister
-This a very simple and classy to-do list maker to make your life well-planned.
+# Todoister
+
+### _A complete (Work in progress now) to-do list maker repositoy with rich feature, following all production best practices._
+
+This a very simple and classy to-do list maker to make your life well-planned. I will keep adding more features continuously.
+
+## Technology stack
+As the name suggests, this repository is built on top of Express.js and React.js, however in the implementation detail, we will find other supporting technologies as well.
+
+<strong>Client side</strong>
+- jQuery - A JavaScript library for building user interfaces
+
+<strong>Server side</strong>
+- Node.js - evented I/O for the backend
+- Express.js - Fast, unopinionated, minimalist web framework for Node.js
+- MongoDB - The application data platform for NoSQL databases
+- Mongoose - mongoose
+- Swagger - Swagger (Not done yet)
+- Jest - JavaScript testing framework
+- Super Test - Super test API testing framework
+Details frameworks and packages can be found in the package.json files in server and client directory.
+
+## Running the application
+This project can be run basically in two ways. One is using docker, other way is to run manually via vscode.
+
+## Visual Studio Code
+
+<strong>Prerequisites</strong>
+- Node.js : To run npm packages
+- MongoDB : As a database for the application
+
+**Steps**
+- To run via vscode, we should run the server and client side projects separately, and also make sure mongodb is up and running.
+- Create a .env file inside of the server directory. Add the below entries or change accordingly. You can follow the .env.sample file to see the format.
+
+```
+PORT="44444"
+MONGODB_URL="mongodb://127.0.0.1:27017/todoister"
+
+### FRONTEND URL ###
+FRONTEND_URL=
+
+JWT_SECRET="jwtsecret"
+JWT_ACCESS_TOKEN_EXPIRES_IN="1d"
+JWT_REFRESH_TOKEN_EXPIRES_IN="30d"
+```
+
+
