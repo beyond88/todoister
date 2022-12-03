@@ -32,10 +32,14 @@ app.use((req, res, next) => {
 //import routes
 const auth = require("./routes/auth");
 const dashboard = require("./routes/dashboard");
+const todo = require("./routes/todo");
+const settings = require("./routes/settings");
 
 //route middlewares
 app.use("/user", auth);
 app.use("/dashboard", dashboard);
+app.use("/todo", todo);
+app.use("/settings", settings);
 
 app.get("/", (req, res, next) => {
     res.render('pages/index');
@@ -43,5 +47,4 @@ app.get("/", (req, res, next) => {
 });
 
 const server = http.createServer(app);
-server.listen(port, () => {}
-);
+server.listen(port, () => {});
