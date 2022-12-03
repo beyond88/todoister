@@ -30,12 +30,12 @@ app.use((req, res, next) => {
 });
 
 //import routes
-const AuthRoutes = require("./routes/AuthRoutes");
-const DashboarRoutes = require("./routes/DashboardRoutes");
+const auth = require("./routes/auth");
+const dashboard = require("./routes/dashboard");
 
 //route middlewares
-app.use("/user", AuthRoutes);
-app.use("/dashboard", DashboarRoutes);
+app.use("/user", auth);
+app.use("/dashboard", dashboard);
 
 app.get("/", (req, res, next) => {
     res.render('pages/index');
