@@ -45,4 +45,12 @@ JWT_ACCESS_TOKEN_EXPIRES_IN="1d"
 JWT_REFRESH_TOKEN_EXPIRES_IN="30d"
 ```
 
+## License
+
+This project is [MIT licensed](https://github.com/facebook/react/blob/main/LICENSE).
+
+## Contribution 
+For now, I am not taking any community contritutions in terms of code.  But if you have any suggestions or you found any bugs, please feel free to open an issue or a pull request.
+
+On the other hand, if you want to know something, or want to start a discussion about this  project, please start a discussion in our GitHub's discussion board.
 
