@@ -43,4 +43,5 @@ app.get("/", (req, res, next) => {
 });
 
 const server = http.createServer(app);
-server.listen(port, () => console.log(`Running server on port: ${port}`));
+server.listen(port, () => {}
+);

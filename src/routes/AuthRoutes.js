@@ -13,5 +13,9 @@ router.post("/register", controller.signup)
 
 router.get("/logout", controller.signout)
 
+// router.post("/forgot-password", controller.forgotPasswordHandler);
+// router.post("/verify-token", controller.verifyTokenHandler);
+// router.post("/reset-password", controller.resetPasswordHandler);
+
 
 module.exports = router;

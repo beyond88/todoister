@@ -23,7 +23,12 @@ const UserSchema = new mongoose.Schema({
     min: 6,
     max: 255,
   },
-    
+
+  accountActivationToken: { type: String, required: false },
+  passwordResetToken: { type: String, required: false },
+
+}, {
+  timestamps: true
 })
 
 module.exports = mongoose.model.users || mongoose.model("users", UserSchema);

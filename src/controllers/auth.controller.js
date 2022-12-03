@@ -1,9 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
+const { update, searchOne } = require("../core/repository");
 const User = require("../models/UserModel");
 
-exports.signup = async (req, res) => {
+exports.signup = async (req, res, next) => {
     const { error } = registerSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
   
@@ -24,10 +25,23 @@ exports.signup = async (req, res) => {
     });
   
     try {
-      const savedUser = await user.save();
-      res.send(savedUser);
+      
+      const userObj = await user.save();
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      userObj.accountActivationToken = token;
+      await update(userObj, 'users')
+      
+      //res.header("auth-token", token).send(token);
+
+      res.status(200).send({
+        status: "ok",
+        message: "Registration Successful",
+        id: user._id
+      });
+
+      next();
     } catch (err) {
-      res.status(500).send({ message: error.message });
+      res.status(500).send({ message: err.message });
     }
 };
 
@@ -48,17 +62,14 @@ exports.signin= async (req, res) => {
                     });
                 }
 
-                const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-                res.header("auth-token", token);
-                //   return success res
-                // res.status(200).send({
-                //     message: "Login Successful",
-                //     email: user.email,
-                //     token,
-                // });
-
-                res.redirect("/dashboard");
-                next();
+                const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN });
+                //res.header("auth-token", token).send(token);
+                res.status(200).send({
+                  status: "ok",
+                  message: "Login Successful",
+                  email: user.email,
+                  accessToken: token,
+                })
             })
             // catch error if password does not match
             .catch((error) => {
@@ -77,6 +88,104 @@ exports.signout = async (req, res) => {
     } catch (err) {
       this.next(err);
     }
+};
+
+exports.verifyTokenHandler = async (req, res) => {
+  const { token } = req.body;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await searchOne({ _id: decoded.id }, 'users');
+      if (user) {
+        const tokenValid = token === user.passwordResetToken;
+        if (tokenValid) {
+          return res
+            .status(200)
+            .send({ status: "ok", message: "Token verified" });
+        }
+        return res
+          .status(400)
+          .send({ status: "error", message: "Token invalid" });
+      }
+    } catch (error) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid token",
+      });
+    }
+  }
+  return res.status(400).send({
+    status: "error",
+    message: "Invalid token",
+  });
+};
+
+
+const forgotPasswordHandler = async (req, res) => {
+  if (req.body.email) {
+    const user = await searchOne({ email: req.body.email }, ModelName);
+    if (user) {
+      const token = jwt.sign(
+        {
+          id: user._id,
+          exp:
+            Math.floor(Date.now() / 1000) +
+            parseInt(process.env.JWT_EXPIRES_IN, 10),
+        },
+        process.env.JWT_SECRET
+      );
+      user.passwordResetToken = token;
+      await update(user, ModelName);
+      await sendPasswordResetEmail(
+        req.body.email,
+        "BizBook365 Password reset",
+        token
+      );
+      return res
+        .status(200)
+        .send({ status: "ok", message: "Email sent successfully" });
+    }
+  }
+
+  return res.status(400).send({
+    status: "error",
+    message: "Email address not found.",
+  });
+};
+
+exports.resetPasswordHandler = async (req, res) => {
+  const { token, password } = req.body;
+  if (token && password) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
+      if (user) {
+        const tokenValid = token === user.passwordResetToken;
+        if (tokenValid) {
+          await changePassword(user, password);
+          // await sendPasswordResetSuccessfulEmail(
+          //   user.email,
+          //   "BizBook365 Password reset successful"
+          // );
+          return res
+            .status(200)
+            .send({ status: "ok", message: "Password changed successfully" });
+        }
+        return res
+          .status(400)
+          .send({ status: "error", message: "Token invalid" });
+      }
+    } catch (error) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid token",
+      });
+    }
+  }
+  return res.status(400).send({
+    status: "error",
+    message: "Invalid token",
+  });
 };
 
 const registerSchema = Joi.object({

@@ -9,7 +9,7 @@ const dbs = mongoose.connect(
         useNewUrlParser: true
     }
 ).then(() => {
-    console.log("Successfully connected to MongoDB Atlas!");
+    //console.log("Successfully connected to MongoDB Atlas!");
 })
 .catch((error) => {
     console.log("Unable to connect to MongoDB Atlas!");

@@ -1,6 +1,9 @@
 const dashboardRouter = require("express").Router();
 
-dashboardRouter.get("/", (req, res) => {
+const auth = require("../middleware/auth");
+
+dashboardRouter.get("/", auth, (req, res) => {
+    console.log(auth)
     res.render('pages/dashboard');
 })
 

@@ -12,16 +12,18 @@
       href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css"
     />
     <link rel="stylesheet" href="../../assets/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="screen">
         <div class="screen__content">
-          <form class="login" action="/user/login" method="post">
+          <form class="login" action="" method="post">
             <div class="login__field">
               <i class="login__icon fas fa-envelope"></i>
               <input
                 type="text"
+                id="email"
                 name="email"
                 class="login__input"
                 placeholder="Email"
@@ -31,12 +33,14 @@
               <i class="login__icon fas fa-lock"></i>
               <input
                 type="password"
+                id="password"
                 name="password"
                 class="login__input"
                 placeholder="Password"
               />
             </div>
-            <button class="button login__submit" name="submit">
+            <div class="login__field error-show"></div>
+            <button class="button login__submit" name="submit" type="button">
               <span class="button__text">Log In Now</span>
               <i class="button__icon fas fa-chevron-right"></i>
             </button>
@@ -70,6 +74,35 @@
         </div>
       </div>
     </div>
-    <%- include('../partials/footer'); %>
+
+    <script>
+      $(document).ready(function () {
+        $(".login__submit").on("click", function () {
+          var data = {
+            email: $("#email").val(),
+            password: $("#password").val(),
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:44444/user/login",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+              console.log(res);
+              window.location.href = "http://localhost:44444/dashboard";
+            },
+            errorf: function (err) {
+              $(".error-show").html(err);
+            },
+            statusCode: {
+              400: function (e) {
+                $(".error-show").html(e.responseText);
+              },
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>

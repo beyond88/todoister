@@ -12,6 +12,7 @@
       href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css"
     />
     <link rel="stylesheet" href="../../assets/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -19,7 +20,7 @@
         <div class="screen__content">
           <form
             class="login"
-            action="/user/register"
+            action=""
             method="post"
             style="padding-top: 100px"
           >
@@ -53,8 +54,8 @@
                 placeholder="Password"
               />
             </div>
-
-            <button class="button login__submit" name="submit">
+            <div class="login__field error-show"></div>
+            <button class="button login__submit" type="button">
               <span class="button__text">Signup</span>
               <i class="button__icon fas fa-chevron-right"></i>
             </button>
@@ -88,6 +89,35 @@
         </div>
       </div>
     </div>
-    <%- include('../partials/footer'); %>
+    <script>
+      $(document).ready(function () {
+        $(".login__submit").on("click", function () {
+          var data = {
+            name: $("#name").val(),
+            email: $("#email").val(),
+            password: $("#password").val(),
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:44444/user/register",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+              console.log(res);
+              window.location.href = "http://localhost:44444/dashboard";
+            },
+            errorf: function (err) {
+              $(".error-show").html(err);
+            },
+            statusCode: {
+              400: function (e) {
+                $(".error-show").html(e.responseText);
+              },
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>
