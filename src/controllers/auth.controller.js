@@ -78,7 +78,12 @@ exports.signin= async (req, res) => {
                 error,
                 });
             });
-    });
+    }).catch((error) => {
+      res.status(400).send({
+      message: "Email not found!",
+      error,
+      });
+  });
 };
 
 exports.signout = async (req, res) => {
