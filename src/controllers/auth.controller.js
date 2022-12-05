@@ -45,7 +45,7 @@ exports.signup = async (req, res, next) => {
     }
 };
 
-exports.signin= async (req, res) => {
+exports.signin = async (req, res) => {
     const { error } = loginSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
   
@@ -57,13 +57,14 @@ exports.signin= async (req, res) => {
                 // check if password matches
                 if(!passwordCheck) {
                     return res.status(400).send({
-                    message: "Passwords does not match",
+                    message: "Passwords does not match1",
                     error,
                     });
                 }
 
                 const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN });
-                //res.header("auth-token", token).send(token);
+                res.cookie("jwtoken", token);
+
                 res.status(200).send({
                   status: "ok",
                   message: "Login Successful",
@@ -74,7 +75,7 @@ exports.signin= async (req, res) => {
             // catch error if password does not match
             .catch((error) => {
                 res.status(400).send({
-                message: "Passwords does not match",
+                message: "Passwords does not match2",
                 error,
                 });
             });
@@ -87,12 +88,13 @@ exports.signin= async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
-    try {
-      req.session = null;
-      res.redirect("/user/login");
-    } catch (err) {
-      this.next(err);
-    }
+  req.logOut();
+  res.status(200).clearCookie('jwtoken', {
+    path: '/'
+  });
+  req.session.destroy(function (err) {
+    res.redirect('/');
+  });
 };
 
 exports.verifyTokenHandler = async (req, res) => {
