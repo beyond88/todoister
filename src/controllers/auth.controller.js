@@ -88,12 +88,9 @@ exports.signin = async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
-  req.logOut();
+
   res.status(200).clearCookie('jwtoken', {
     path: '/'
-  });
-  req.session.destroy(function (err) {
-    res.redirect('/');
   });
 };
 
