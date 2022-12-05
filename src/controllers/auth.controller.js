@@ -120,7 +120,6 @@ exports.verifyTokenHandler = async (req, res) => {
   });
 };
 
-
 const forgotPasswordHandler = async (req, res) => {
   if (req.body.email) {
     const user = await searchOne({ email: req.body.email }, ModelName);
@@ -163,10 +162,6 @@ exports.resetPasswordHandler = async (req, res) => {
         const tokenValid = token === user.passwordResetToken;
         if (tokenValid) {
           await changePassword(user, password);
-          // await sendPasswordResetSuccessfulEmail(
-          //   user.email,
-          //   "BizBook365 Password reset successful"
-          // );
           return res
             .status(200)
             .send({ status: "ok", message: "Password changed successfully" });

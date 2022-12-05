@@ -1,22 +1,25 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = async (request, response, next) => {
+module.exports = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if ( ! authHeader || authHeader == undefined) {
+    return res.status(401).json({
+        status: 'fail',
+        message: 'Unauthorized!',
+      });
+
+  }
+
+  const token = authHeader.split(' ')[1];
   try {
-
-    // const token = await request.headers.authorization.split(" ")[1];
-    // const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
-    // const user = await decodedToken;
-    // request.user = user;
-
-    // const token = await request;
-    // console.log('header==>',response)
+    const user = jwt.verify(token, 'secret');
+    req.user = user;
     next();
-    
   } catch (error) {
-    console.log(error);
-    response.status(401).json({
-      error: new Error("Invalid request!"),
-    });
+    res.status(401).json({
+        status: 'fail',
+        message: 'Unauthorized!',
+      });
   }
 };
 
