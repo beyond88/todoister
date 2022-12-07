@@ -89,12 +89,13 @@ exports.signin = async (req, res) => {
 
 exports.signout = async (req, res) => {
 
-  res.status(200).clearCookie('jwtoken', {
+  await res.status(200).clearCookie('jwtoken', {
     path: '/'
-  });
+  }).redirect('/user/login');
 };
 
 exports.verifyTokenHandler = async (req, res) => {
+  
   const { token } = req.body;
   if (token) {
     try {
@@ -122,6 +123,7 @@ exports.verifyTokenHandler = async (req, res) => {
     status: "error",
     message: "Invalid token",
   });
+
 };
 
 const forgotPasswordHandler = async (req, res) => {
