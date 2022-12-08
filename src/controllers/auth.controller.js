@@ -97,6 +97,7 @@ exports.signout = async (req, res) => {
 exports.verifyTokenHandler = async (req, res) => {
   
   const { token } = req.body;
+
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -115,13 +116,14 @@ exports.verifyTokenHandler = async (req, res) => {
     } catch (error) {
       return res.status(400).send({
         status: "error",
-        message: "Invalid token",
+        message: "Invalid token1",
       });
     }
   }
   return res.status(400).send({
     status: "error",
-    message: "Invalid token",
+    message: "Invalid token2",
+    token: token
   });
 
 };

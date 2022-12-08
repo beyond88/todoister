@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema({
   },
   passwordResetToken: { type: String, required: false },
   accountActivationToken: { type: String, required: false },
+  bio: {
+    type: String,
+    required: false,
+    max: 2000,
+  },
 
 }, {
   timestamps: true
