@@ -56,10 +56,10 @@ exports.signin = async (req, res) => {
             .then((passwordCheck) => {
                 // check if password matches
                 if(!passwordCheck) {
-                    return res.status(400).send({
+                  return res.status(400).send({
                     message: "Passwords does not match1",
                     error,
-                    });
+                  });
                 }
 
                 const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN });
@@ -74,10 +74,10 @@ exports.signin = async (req, res) => {
             })
             // catch error if password does not match
             .catch((error) => {
-                res.status(400).send({
+              res.status(400).send({
                 message: "Passwords does not match2",
                 error,
-                });
+              });
             });
     }).catch((error) => {
       res.status(400).send({
@@ -88,7 +88,6 @@ exports.signin = async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
-
   await res.status(200).clearCookie('jwtoken', {
     path: '/'
   }).redirect('/user/login');
@@ -116,13 +115,13 @@ exports.verifyTokenHandler = async (req, res) => {
     } catch (error) {
       return res.status(400).send({
         status: "error",
-        message: "Invalid token1",
+        message: "Invalid token",
       });
     }
   }
   return res.status(400).send({
     status: "error",
-    message: "Invalid token2",
+    message: "Invalid token",
     token: token
   });
 
@@ -145,7 +144,7 @@ const forgotPasswordHandler = async (req, res) => {
       await update(user, ModelName);
       await sendPasswordResetEmail(
         req.body.email,
-        "BizBook365 Password reset",
+        "Password reset",
         token
       );
       return res
@@ -192,14 +191,14 @@ exports.resetPasswordHandler = async (req, res) => {
 };
 
 const registerSchema = Joi.object({
-    name: Joi.string().min(1).required(),
-    email: Joi.string().min(3).required().email(),
-    password: Joi.string().min(6).required(),
-    submit: '',
+  name: Joi.string().min(1).required(),
+  email: Joi.string().min(3).required().email(),
+  password: Joi.string().min(6).required(),
+  submit: '',
 });
 
 const loginSchema = Joi.object({
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required(),
-    submit: '',
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required(),
+  submit: '',
 });
