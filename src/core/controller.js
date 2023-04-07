@@ -64,13 +64,13 @@ const saveHandler = async (req, res, next) => {
 const updateHandler = async (req, res, next) => {
   try {
     const ModelName = req.modelName;
-    const { body } = req;
-    const id = await update(body, ModelName);
+    const id = await update(req, ModelName);
     return res
       .status(200)
       .send({ success: true, message: `${ModelName} updated` });
   } catch (error) {
-    return next(error, req, res);
+    //return next(error, req, res);
+    console.log('error', error);
   }
 };
 
