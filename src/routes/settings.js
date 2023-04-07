@@ -27,8 +27,8 @@ settingsdRouter.get("/reset-password", auth, (req, res) => {
     res.render('pages/reset-password');
 })
 
-settingsdRouter.put("/update", (req, res) => {
-    const item = updateHandler(req.body, res);
+settingsdRouter.put("/update", (req, res, next) => {
+    const item = updateHandler(req.body, res, next);
     return res.status(200).send({
         res: item
     });

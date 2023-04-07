@@ -69,7 +69,7 @@ const updateHandler = async (req, res, next) => {
       .status(200)
       .send({ success: true, message: `${ModelName} updated` });
   } catch (error) {
-    //return next(error, req, res);
+    return next(error, req, res);
     console.log('error', error);
   }
 };
