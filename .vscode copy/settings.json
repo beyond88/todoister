@@ -1,8 +1,0 @@
-{
-	"editor.codeActionsOnSave": {
-		"source.fixAll": true,
-		"source.organizeImports": true
-	},
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"typescript.preferences.importModuleSpecifier": "relative"
-}
