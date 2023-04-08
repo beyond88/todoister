@@ -37,6 +37,7 @@ const dashboard = require("./routes/dashboard");
 const todo = require("./routes/todo");
 const settings = require("./routes/settings");
 
+
 //route middlewares
 app.use("/user", auth);
 app.use("/dashboard", dashboard);

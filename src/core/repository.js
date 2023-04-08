@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const eventEmitter = require("./event-manager").getInstance();
 
 const save = async (item, modelName) => {
-  const model = new mongoose.models[modelName](item);
+  const model = new mongoose.models(modelName, item);
   const savedItem = await model.save();
   eventEmitter.emit(`${modelName}Created`, savedItem);
   return savedItem;

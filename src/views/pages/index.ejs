@@ -1,37 +1,86 @@
-<%- include('../partials/header'); %>
-
-<div class="container">
-	<div class="screen">
-		<div class="screen__content">
-			<form class="login">
-				<div class="login__field">
-					<i class="login__icon fas fa-user"></i>
-					<input type="text" class="login__input" placeholder="User name / Email" />
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Todoister - Login</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" />
+		<link rel="stylesheet" href="../../assets/css/style.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="screen">
+				<div class="screen__content">
+					<form class="login" action="" method="post">
+						<div class="login__field">
+							<i class="login__icon fas fa-envelope"></i>
+							<input type="text" id="email" name="email" class="login__input" placeholder="Email" />
+						</div>
+						<div class="login__field">
+							<i class="login__icon fas fa-lock"></i>
+							<input
+								type="password"
+								id="password"
+								name="password"
+								class="login__input"
+								placeholder="Password"
+							/>
+						</div>
+						<div class="login__field error-show"></div>
+						<button class="button login__submit" name="submit" type="button">
+							<span class="button__text">Log In Now</span>
+							<i class="button__icon fas fa-chevron-right"></i>
+						</button>
+					</form>
+					<div class="social-login" style="left: 43px">
+						<a href="/user/register" class="social-login__icon"><span>Signup</span></a>
+					</div>
+					<div class="social-login">
+						<h3>Log in via</h3>
+						<div class="social-icons">
+							<a href="#" class="social-login__icon fab fa-google"></a>
+							<a href="#" class="social-login__icon fab fa-facebook"></a>
+						</div>
+					</div>
 				</div>
-				<div class="login__field">
-					<i class="login__icon fas fa-lock"></i>
-					<input type="password" class="login__input" placeholder="Password" />
-				</div>
-				<button class="button login__submit">
-					<span class="button__text">Log In Now</span>
-					<i class="button__icon fas fa-chevron-right"></i>
-				</button>
-			</form>
-			<div class="social-login">
-				<h3>log in via</h3>
-				<div class="social-icons">
-					<a href="#" class="social-login__icon fab fa-instagram"></a>
-					<a href="#" class="social-login__icon fab fa-facebook"></a>
-					<a href="#" class="social-login__icon fab fa-twitter"></a>
+				<div class="screen__background">
+					<span class="screen__background__shape screen__background__shape4"></span>
+					<span class="screen__background__shape screen__background__shape3"></span>
+					<span class="screen__background__shape screen__background__shape2"></span>
+					<span class="screen__background__shape screen__background__shape1"></span>
 				</div>
 			</div>
 		</div>
-		<div class="screen__background">
-			<span class="screen__background__shape screen__background__shape4"></span>
-			<span class="screen__background__shape screen__background__shape3"></span>
-			<span class="screen__background__shape screen__background__shape2"></span>
-			<span class="screen__background__shape screen__background__shape1"></span>
-		</div>
-	</div>
-</div>
-<%- include('../partials/footer'); %>
+
+		<script>
+			$(document).ready(function () {
+				$('.login__submit').on('click', function () {
+					var data = {
+						email: $('#email').val(),
+						password: $('#password').val(),
+					};
+
+					$.ajax({
+						type: 'POST',
+						url: 'http://localhost:44444/user/login',
+						data: JSON.stringify(data),
+						contentType: 'application/json; charset=utf-8',
+						success: function (res) {
+							console.log(res);
+							window.location.href = 'http://localhost:44444/dashboard';
+						},
+						errorf: function (err) {
+							$('.error-show').html(err);
+						},
+						statusCode: {
+							400: function (e) {
+								$('.error-show').html(e.responseText);
+							},
+						},
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

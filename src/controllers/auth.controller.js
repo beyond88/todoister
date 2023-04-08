@@ -35,7 +35,7 @@ exports.signup = async (req, res, next) => {
 
       res.status(200).send({
         status: "ok",
-        message: "Registration Successful",
+        message: "Registration successful",
         id: user._id
       });
 
@@ -57,7 +57,7 @@ exports.signin = async (req, res) => {
                 // check if password matches
                 if(!passwordCheck) {
                   return res.status(400).send({
-                    message: "Passwords does not match1",
+                    message: "Passwords does not match",
                     error,
                   });
                 }
@@ -67,7 +67,7 @@ exports.signin = async (req, res) => {
 
                 res.status(200).send({
                   status: "ok",
-                  message: "Login Successful",
+                  message: "Login successful",
                   email: user.email,
                   accessToken: token,
                 })
@@ -75,7 +75,7 @@ exports.signin = async (req, res) => {
             // catch error if password does not match
             .catch((error) => {
               res.status(400).send({
-                message: "Passwords does not match2",
+                message: "Passwords does not match",
                 error,
               });
             });
