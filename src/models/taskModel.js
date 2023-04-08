@@ -8,14 +8,14 @@ const TaskSchema = new mongoose.Schema({
 
   completed: {
     type: Boolean,
-    required: [false, ""],
+    required: [true, ""],
   },
 
   user_id: {
     type: String,
     required: [true, ""],
   },
-  
+
   priority: {
     type: Number,
     required: [false, ""],
@@ -25,4 +25,4 @@ const TaskSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model.users || mongoose.model("tasks", TaskSchema);
+module.exports = mongoose.model.tasks || mongoose.model("tasks", TaskSchema);
