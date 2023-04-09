@@ -1,4 +1,5 @@
 const todoRouter = require("express").Router();
+const controller = require("../controllers/todo.controller");
 const {
     getByIdHandler,
     saveHandler,
@@ -24,11 +25,6 @@ todoRouter.get("/", auth, async (req, res) => {
   res.render('pages/todo', {item: item});
 })
 
-todoRouter.post("/add", (req, res, next) => {
-  const item = saveHandler(req.body, res, next);
-  return res.status(200).send({
-    res: item
-  });
-})
+todoRouter.post("/add", controller.addTask);
 
 module.exports = todoRouter;

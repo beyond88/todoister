@@ -133,13 +133,11 @@
 				$('#todo-list-add-btn').on('click', function () {
 					if ($('#add-task-field').val() != '') {
 						var data = {
-							modelName: 'tasks',
 							title: $('#add-task-field').val(),
 							completed: 0,
 							priority: 0,
 							user_id: $('#user_id').val(),
 						};
-						console.log('clicked');
 
 						$.ajax({
 							type: 'POST',
@@ -147,7 +145,10 @@
 							data: JSON.stringify(data),
 							contentType: 'application/json; charset=utf-8',
 							success: function (res) {
-								console.log(res);
+								if (res.status == 'ok') {
+									alert(res.message);
+									$('#add-task-field').val('');
+								}
 							},
 							errorf: function (err) {
 								$('.error-show').html(err);
