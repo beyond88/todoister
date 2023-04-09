@@ -1,14 +1,8 @@
-FROM node
-
-WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
-
+FROM node:latest
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app
 RUN npm install
-
-COPY . . /
-
-EXPORE 4444
-
-CMD ["npm", "start"]
+COPY . /usr/src/app
+EXPOSE 4444
+CMD [ "node", "./src/server.js" ]
