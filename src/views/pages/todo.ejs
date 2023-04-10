@@ -143,7 +143,6 @@
 						data: JSON.stringify(data),
 						contentType: 'application/json; charset=utf-8',
 						success: function (res) {
-							console.log(res);
 
 							if (res.tasks.length > 0) {
 								var fragment = '';
@@ -151,7 +150,7 @@
 								$.each(res.tasks, function (index, value) {
 									var completed = value.completed;
 									var title = value.title;
-									var id = value._id
+									var id = value._id;
 
 									modelHTML += `<li>
 													<div class="form-check">
@@ -159,7 +158,7 @@
 															<input class="checkbox" type="checkbox" />${title}<i class="input-helper"></i
 														></label>
 													</div>
-													<i class="remove mdi mdi-close-circle-outline" onClick="deleteTask(${id})"></i>
+													<i class="remove mdi mdi-close-circle-outline" onClick="deleteTask('${id}', this)"></i>
 												</li>`;
 								});
 
@@ -178,29 +177,32 @@
 				}
 			}
 
-			function deleteTask(id) {
+			function deleteTask(id, that) {
 				if (id != '') {
 					let data = {
 						_id: id,
 					};
-
-					jQuery.ajax({
-						type: 'POST',
-						url: 'http://localhost:44444/todo/delete',
-						data: JSON.stringify(data),
-						contentType: 'application/json; charset=utf-8',
-						success: function (res) {
-							console.log('delete response==>', res);
-						},
-						errorf: function (err) {
-							jQuery('.error-show').html(err);
-						},
-						statusCode: {
-							400: function (e) {
-								jQuery('.error-show').html(e.responseText);
+					if (confirm('Are you sure to delete this task?')) {
+						console.log(that);
+						jQuery.ajax({
+							type: 'POST',
+							url: 'http://localhost:44444/todo/delete',
+							data: JSON.stringify(data),
+							contentType: 'application/json; charset=utf-8',
+							success: function (res) {
+								console.log('delete response==>', res);
+								that.parentElement.remove();
 							},
-						},
-					});
+							errorf: function (err) {
+								jQuery('.error-show').html(err);
+							},
+							statusCode: {
+								400: function (e) {
+									jQuery('.error-show').html(e.responseText);
+								},
+							},
+						});
+					}
 				}
 			}
 		</script>
