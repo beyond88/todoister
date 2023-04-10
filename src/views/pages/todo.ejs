@@ -46,7 +46,7 @@
 										</div>
 										<div class="list-wrapper">
 											<ul class="d-flex flex-column-reverse todo-list">
-												<li>
+												<!-- <li>
 													<div class="form-check">
 														<label class="form-check-label">
 															<input class="checkbox" type="checkbox" /> For what reason
@@ -64,44 +64,7 @@
 														></label>
 													</div>
 													<i class="remove mdi mdi-close-circle-outline"></i>
-												</li>
-												<li>
-													<div class="form-check">
-														<label class="form-check-label">
-															<input class="checkbox" type="checkbox" /> it be advisable
-															for me to think about business content?
-															<i class="input-helper"></i
-														></label>
-													</div>
-													<i class="remove mdi mdi-close-circle-outline"></i>
-												</li>
-												<li>
-													<div class="form-check">
-														<label class="form-check-label">
-															<input class="checkbox" type="checkbox" /> Print Statements
-															all <i class="input-helper"></i
-														></label>
-													</div>
-													<i class="remove mdi mdi-close-circle-outline"></i>
-												</li>
-												<li class="completed">
-													<div class="form-check">
-														<label class="form-check-label">
-															<input class="checkbox" type="checkbox" checked="" />
-															Call Rampbo <i class="input-helper"></i
-														></label>
-													</div>
-													<i class="remove mdi mdi-close-circle-outline"></i>
-												</li>
-												<li>
-													<div class="form-check">
-														<label class="form-check-label">
-															<input class="checkbox" type="checkbox" /> Print bills
-															<i class="input-helper"></i
-														></label>
-													</div>
-													<i class="remove mdi mdi-close-circle-outline"></i>
-												</li>
+												</li> -->
 											</ul>
 										</div>
 									</div>
@@ -162,6 +125,40 @@
 					}
 				});
 			});
+
+			window.onload = (event) => {
+				getTasks();
+			}
+
+			function getTasks() {
+				if ( jQuery('#user_id').val() != '' ) {
+					var data = {
+						user_id: jQuery('#user_id').val(),
+					};
+
+					jQuery.ajax({
+						type: 'POST',
+						url: 'http://localhost:44444/todo/tasks',
+						data: JSON.stringify(data),
+						contentType: 'application/json; charset=utf-8',
+						success: function (res) {
+							console.log(res);
+
+							if( res.tasks.length > 0 ) {
+
+							}
+						},
+						errorf: function (err) {
+							jQuery('.error-show').html(err);
+						},
+						statusCode: {
+							400: function (e) {
+								jQuery('.error-show').html(e.responseText);
+							},
+						},
+					});
+				}
+			}
 		</script>
 	</body>
 </html>
