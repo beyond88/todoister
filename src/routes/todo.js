@@ -26,7 +26,8 @@ todoRouter.get("/", auth, async (req, res) => {
 })
 
 todoRouter.post("/add", controller.addTask);
-todoRouter.post("/tasks", controller.getTasks)
+todoRouter.post("/tasks", controller.getTasks);
+todoRouter.post("/delete", controller.deleteTask);
 
 
 module.exports = todoRouter;

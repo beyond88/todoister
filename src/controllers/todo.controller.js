@@ -45,6 +45,21 @@ exports.getTasks = async (req, res, next) => {
   }
 };
 
+exports.deleteTask = async (req, res, next) => {
+
+  try {
+    const tasks = await Tasks.deleteOne({ _id: req.body._id })
+    res.status(200).json({
+      status: "ok",
+      message: "Task is deleted"
+    });
+
+    next();
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 const taskSchema = Joi.object({
     title: Joi.string().required(),
     completed: Joi.number().required(),

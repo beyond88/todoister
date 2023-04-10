@@ -151,6 +151,7 @@
 								$.each(res.tasks, function (index, value) {
 									var completed = value.completed;
 									var title = value.title;
+									var id = value._id
 
 									modelHTML += `<li>
 													<div class="form-check">
@@ -158,12 +159,38 @@
 															<input class="checkbox" type="checkbox" />${title}<i class="input-helper"></i
 														></label>
 													</div>
-													<i class="remove mdi mdi-close-circle-outline"></i>
+													<i class="remove mdi mdi-close-circle-outline" onClick="deleteTask(${id})"></i>
 												</li>`;
 								});
 
 								$('.todo-list').html(modelHTML);
 							}
+						},
+						errorf: function (err) {
+							jQuery('.error-show').html(err);
+						},
+						statusCode: {
+							400: function (e) {
+								jQuery('.error-show').html(e.responseText);
+							},
+						},
+					});
+				}
+			}
+
+			function deleteTask(id) {
+				if (id != '') {
+					let data = {
+						_id: id,
+					};
+
+					jQuery.ajax({
+						type: 'POST',
+						url: 'http://localhost:44444/todo/delete',
+						data: JSON.stringify(data),
+						contentType: 'application/json; charset=utf-8',
+						success: function (res) {
+							console.log('delete response==>', res);
 						},
 						errorf: function (err) {
 							jQuery('.error-show').html(err);
