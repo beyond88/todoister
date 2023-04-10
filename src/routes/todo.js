@@ -28,6 +28,13 @@ todoRouter.get("/", auth, async (req, res) => {
 todoRouter.post("/add", controller.addTask);
 todoRouter.post("/tasks", controller.getTasks);
 todoRouter.post("/delete", controller.deleteTask);
+todoRouter.post("/status", (req, res, next) => {
+  const item = updateHandler(req.body, res, next);
+  return res.status(200).send({
+      status: "ok",
+      message: "Updated"
+  });
+});
 
 
 module.exports = todoRouter;

@@ -131,6 +131,19 @@
 						});
 					}
 				});
+
+				$(document).on('click', '.list-wrapper ul li .form-check', function () {
+					let taskId = 0;
+					if ($('.form-check .form-check-label input[type="checkbox"]').is(':checked')) {
+						taskId = $(this).data('task-id');
+						$(this).parent().addClass('completed');
+						markCompleted(taskId, 1);
+					} else {
+						taskId = $(this).data('task-id');
+						$(this).parent().addClass('completed');
+						markCompleted(taskId, 0);
+					}
+				});
 			});
 
 			window.onload = (event) => {
@@ -156,9 +169,14 @@
 									var completed = value.completed;
 									var title = value.title;
 									var id = value._id;
+									let status = value.completed;
+									let cssClass = '';
+									if (status === 1) {
+										cssClass = 'completed';
+									}
 
-									modelHTML += `<li>
-													<div class="form-check">
+									modelHTML += `<li class="${cssClass}">
+													<div class="form-check" data-task-id="${id}">
 														<label class="form-check-label">
 															<input class="checkbox" type="checkbox" />${title}<i class="input-helper"></i
 														></label>
@@ -188,14 +206,12 @@
 						_id: id,
 					};
 					if (confirm('Are you sure to delete this task?')) {
-						console.log(that);
 						jQuery.ajax({
 							type: 'POST',
 							url: 'http://localhost:44444/todo/delete',
 							data: JSON.stringify(data),
 							contentType: 'application/json; charset=utf-8',
 							success: function (res) {
-								console.log('delete response==>', res);
 								that.parentElement.remove();
 							},
 							errorf: function (err) {
@@ -209,6 +225,32 @@
 						});
 					}
 				}
+			}
+
+			function markCompleted(id, status) {
+				let data = {
+					modelName: 'tasks',
+					_id: id,
+					completed: status,
+				};
+
+				jQuery.ajax({
+					type: 'POST',
+					url: 'http://localhost:44444/todo/status',
+					data: JSON.stringify(data),
+					contentType: 'application/json; charset=utf-8',
+					success: function (res) {
+						console.log('response==>', res);
+					},
+					errorf: function (err) {
+						jQuery('.error-show').html(err);
+					},
+					statusCode: {
+						400: function (e) {
+							jQuery('.error-show').html(e.responseText);
+						},
+					},
+				});
 			}
 		</script>
 	</body>
