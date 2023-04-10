@@ -55,6 +55,8 @@
 
 		<script>
 			$(document).ready(function () {
+
+				let appOrigin = window.location.origin;
 				$('.login__submit').on('click', function () {
 					var data = {
 						email: $('#email').val(),
@@ -63,12 +65,11 @@
 
 					$.ajax({
 						type: 'POST',
-						url: 'http://localhost:44444/user/login',
+						url: appOrigin+'/user/login',
 						data: JSON.stringify(data),
 						contentType: 'application/json; charset=utf-8',
 						success: function (res) {
-							console.log(res);
-							window.location.href = 'http://localhost:44444/dashboard';
+							window.location.href = appOrigin+'/dashboard';
 						},
 						errorf: function (err) {
 							$('.error-show').html(err);

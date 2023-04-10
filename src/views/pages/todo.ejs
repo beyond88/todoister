@@ -92,6 +92,7 @@
 		<script src="assets/js/custom.js"></script>
 
 		<script>
+			let appOrigin = window.location.origin;
 			$(document).ready(function () {
 				$(document).on('keypress', '#add-task-field', function (e) {
 					if (e.which == 13 && $('#add-task-field').val() != '') {
@@ -110,7 +111,7 @@
 
 						$.ajax({
 							type: 'POST',
-							url: 'http://localhost:44444/todo/add',
+							url: appOrigin + '/todo/add',
 							data: JSON.stringify(data),
 							contentType: 'application/json; charset=utf-8',
 							success: function (res) {
@@ -158,7 +159,7 @@
 
 					jQuery.ajax({
 						type: 'POST',
-						url: 'http://localhost:44444/todo/tasks',
+						url: appOrigin + '/todo/tasks',
 						data: JSON.stringify(data),
 						contentType: 'application/json; charset=utf-8',
 						success: function (res) {
@@ -208,7 +209,7 @@
 					if (confirm('Are you sure to delete this task?')) {
 						jQuery.ajax({
 							type: 'POST',
-							url: 'http://localhost:44444/todo/delete',
+							url: appOrigin + '/todo/delete',
 							data: JSON.stringify(data),
 							contentType: 'application/json; charset=utf-8',
 							success: function (res) {
@@ -236,7 +237,7 @@
 
 				jQuery.ajax({
 					type: 'POST',
-					url: 'http://localhost:44444/todo/status',
+					url: appOrigin + '/todo/status',
 					data: JSON.stringify(data),
 					contentType: 'application/json; charset=utf-8',
 					success: function (res) {

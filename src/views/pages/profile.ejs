@@ -102,6 +102,8 @@
 		<script src="assets/js/custom.js"></script>
 		<script>
 			$(document).ready(function () {
+
+				let appOrigin = window.location.origin;
 				$('#update-profile').on('click', function () {
 					// var data = {
 					// 	modelName: 'users',
@@ -142,7 +144,7 @@
 
 				jQuery.ajax({
 					type: 'PUT',
-					url: 'http://localhost:44444/settings/update',
+					url: appOrigin+'/settings/update',
 					data: JSON.stringify(data),
 					contentType: 'application/json; charset=utf-8',
 					success: function (res) {

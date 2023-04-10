@@ -58,6 +58,8 @@
 		</div>
 		<script>
 			$(document).ready(function () {
+
+				let appOrigin = window.location.origin;
 				$('.login__submit').on('click', function () {
 					var data = {
 						name: $('#name').val(),
@@ -67,7 +69,7 @@
 
 					$.ajax({
 						type: 'POST',
-						url: 'http://localhost:44444/user/register',
+						url: appOrigin+'/user/register',
 						data: JSON.stringify(data),
 						contentType: 'application/json; charset=utf-8',
 						success: function (res) {
