@@ -93,6 +93,12 @@
 
 		<script>
 			$(document).ready(function () {
+				$(document).on('keypress', '#add-task-field', function (e) {
+					if (e.which == 13 && $('#add-task-field').val() != '') {
+						$('#todo-list-add-btn').click();
+					}
+				});
+
 				$('#todo-list-add-btn').on('click', function () {
 					if ($('#add-task-field').val() != '') {
 						var data = {
@@ -143,7 +149,6 @@
 						data: JSON.stringify(data),
 						contentType: 'application/json; charset=utf-8',
 						success: function (res) {
-
 							if (res.tasks.length > 0) {
 								var fragment = '';
 								var modelHTML = '';
