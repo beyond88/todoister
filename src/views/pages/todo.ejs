@@ -111,6 +111,7 @@
 								if (res.status == 'ok') {
 									alert(res.message);
 									$('#add-task-field').val('');
+									getTasks();
 								}
 							},
 							errorf: function (err) {
@@ -128,10 +129,10 @@
 
 			window.onload = (event) => {
 				getTasks();
-			}
+			};
 
 			function getTasks() {
-				if ( jQuery('#user_id').val() != '' ) {
+				if (jQuery('#user_id').val() != '') {
 					var data = {
 						user_id: jQuery('#user_id').val(),
 					};
@@ -144,8 +145,24 @@
 						success: function (res) {
 							console.log(res);
 
-							if( res.tasks.length > 0 ) {
+							if (res.tasks.length > 0) {
+								var fragment = '';
+								var modelHTML = '';
+								$.each(res.tasks, function (index, value) {
+									var completed = value.completed;
+									var title = value.title;
 
+									modelHTML += `<li>
+													<div class="form-check">
+														<label class="form-check-label">
+															<input class="checkbox" type="checkbox" />${title}<i class="input-helper"></i
+														></label>
+													</div>
+													<i class="remove mdi mdi-close-circle-outline"></i>
+												</li>`;
+								});
+
+								$('.todo-list').html(modelHTML);
 							}
 						},
 						errorf: function (err) {
