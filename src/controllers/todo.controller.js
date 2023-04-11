@@ -62,7 +62,7 @@ exports.deleteTask = async (req, res, next) => {
 
 exports.markCompleted = async (req, res, next) => {
 
-  try {
+ try {
     const tasks = await Tasks.deleteOne({ _id: req.body._id })
     res.status(200).json({
       status: "ok",
