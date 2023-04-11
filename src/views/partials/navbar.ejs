@@ -1,32 +1,39 @@
 <nav class="navbar-default navbar-side" role="navigation">
-  <div class="sidebar-collapse">
-    <ul class="nav" id="main-menu">
-      <li class="text-center">
-        <img src="assets/img/find_user.png" class="user-image img-responsive" />
-      </li>
-      <li>
-        <a class="active-menu" href="/dashboard"
-          ><i class="fa fa-dashboard fa-3x"></i> Dashboard</a
-        >
-      </li>
-      <li>
-        <a href="/todo"><i class="fa fa-edit fa-3x"></i> My To-do</a>
-      </li>
-      <li>
-        <a href="#"
-          ><i class="fa fa-sitemap fa-3x"></i> Settings<span
-            class="fa arrow"
-          ></span
-        ></a>
-        <ul class="nav nav-second-level">
-          <li>
-            <a href="/settings">Profile</a>
-          </li>
-          <li>
-            <a href="settings/reset-password">Reset Password</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+	<div class="sidebar-collapse">
+		<ul class="nav" id="main-menu">
+			<li class="text-center">
+				<img
+					src="assets/img/find_user.png"
+					class="user-image img-responsive"
+					id="display-avatar"
+					style="cursor: pointer"
+				/>
+				<input
+					type="file"
+					name="user-avatar"
+					id="user-avatar"
+					class="user-avatar"
+					accept="jpg, png"
+					style="display: none"
+				/>
+			</li>
+			<li>
+				<a class="active-menu" href="/dashboard"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
+			</li>
+			<li>
+				<a href="/todo"><i class="fa fa-edit fa-3x"></i> My To-do</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level">
+					<li>
+						<a href="/settings">Profile</a>
+					</li>
+					<li>
+						<a href="settings/reset-password">Reset Password</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 </nav>

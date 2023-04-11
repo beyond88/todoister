@@ -212,6 +212,28 @@
 
     $(document).ready(function () {
         mainApp.main_fun();
+
+        $(document).on('click', '#display-avatar', function () {
+			document.getElementById('user-avatar').click();
+		});
+
+
+        let avatarFile = '';
+
+        $(document).on('change', '#user-avatar', function(){
+          const file = this.files[0];
+          if (file){
+            let reader = new FileReader();
+            reader.onload = function(event){
+              $('#display-avatar').attr('src', event.target.result);
+            }
+      
+            avatarFile = file;
+            reader.readAsDataURL(file);
+          }
+        });
     });
+
+
 
 }(jQuery));

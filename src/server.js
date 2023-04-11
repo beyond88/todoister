@@ -4,6 +4,7 @@ const http = require('http');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const app = express();
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require("./config/config");
 const port = process.env.PORT || 3000; 
@@ -36,7 +37,6 @@ const auth = require("./routes/auth");
 const dashboard = require("./routes/dashboard");
 const todo = require("./routes/todo");
 const settings = require("./routes/settings");
-
 
 //route middlewares
 app.use("/user", auth);
