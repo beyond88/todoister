@@ -213,10 +213,11 @@
     $(document).ready(function () {
         mainApp.main_fun();
 
+        let appOrigin = window.location.origin;
+
         $(document).on('click', '#display-avatar', function () {
 			document.getElementById('user-avatar').click();
 		});
-
 
         let avatarFile = '';
 
@@ -226,6 +227,32 @@
             let reader = new FileReader();
             reader.onload = function(event){
               $('#display-avatar').attr('src', event.target.result);
+              
+              if(confirm('Are you sure to upload the image?')){
+
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                jQuery.ajax({
+					type: 'POST',
+					url: appOrigin + '/settings/upload',
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+					success: function (res) {
+                        console.log('upload response', res)
+                    },
+					errorf: function (err) {
+						jQuery('.error-show').html(err);
+					},
+					statusCode: {
+						400: function (e) {
+							jQuery('.error-show').html(e.responseText);
+						},
+					},
+				});
+              }
             }
       
             avatarFile = file;
@@ -233,7 +260,5 @@
           }
         });
     });
-
-
 
 }(jQuery));
