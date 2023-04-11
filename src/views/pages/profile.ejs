@@ -55,10 +55,6 @@
 													/>
 												</div>
 												<div class="form-group">
-													<label>File input</label>
-													<input type="file" />
-												</div>
-												<div class="form-group">
 													<label>Bio</label>
 													<textarea
 														name="bio"
@@ -68,7 +64,8 @@
 														rows="2"
 													>
 													<%= item.bio %>
-													</textarea>
+													</textarea
+													>
 												</div>
 												<input type="hidden" id="userId" value="<%= item._id %>" />
 												<button type="button" id="update-profile" onclick="updateProfile()">
@@ -102,7 +99,6 @@
 		<script src="assets/js/custom.js"></script>
 		<script>
 			$(document).ready(function () {
-
 				let appOrigin = window.location.origin;
 				$('#update-profile').on('click', function () {
 					// var data = {
@@ -144,7 +140,7 @@
 
 				jQuery.ajax({
 					type: 'PUT',
-					url: appOrigin+'/settings/update',
+					url: appOrigin + '/settings/update',
 					data: JSON.stringify(data),
 					contentType: 'application/json; charset=utf-8',
 					success: function (res) {

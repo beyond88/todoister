@@ -172,14 +172,16 @@
 									var id = value._id;
 									let status = value.completed;
 									let cssClass = '';
+									let checked = '';
 									if (status === 1) {
 										cssClass = 'completed';
+										checked = 'checked';
 									}
 
 									modelHTML += `<li class="${cssClass}">
 													<div class="form-check" data-task-id="${id}">
 														<label class="form-check-label">
-															<input class="checkbox" type="checkbox" />${title}<i class="input-helper"></i
+															<input class="checkbox" type="checkbox" ${checked} />${title}<i class="input-helper"></i
 														></label>
 													</div>
 													<i class="remove mdi mdi-close-circle-outline" onClick="deleteTask('${id}', this)"></i>
@@ -234,15 +236,12 @@
 					_id: id,
 					completed: status,
 				};
-
 				jQuery.ajax({
 					type: 'POST',
 					url: appOrigin + '/todo/status',
 					data: JSON.stringify(data),
 					contentType: 'application/json; charset=utf-8',
-					success: function (res) {
-						console.log('response==>', res);
-					},
+					success: function (res) {},
 					errorf: function (err) {
 						jQuery('.error-show').html(err);
 					},
