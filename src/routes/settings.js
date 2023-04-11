@@ -18,6 +18,23 @@ const {
   } = require("../core/repository");
 
 const auth = require("../middleware/auth");
+const multer = require('multer');
+var path = require('path');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './image')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+  })
+
+const fs = require('fs');
+// const upload = multer({dest : './image'});
+const upload = multer({ storage: storage });
+
+
 
 settingsdRouter.get("/", auth, async (req, res) => {
     const item = await getById(req.user._id, 'users');
@@ -34,5 +51,10 @@ settingsdRouter.put("/update", (req, res, next) => {
         res: item
     });
 })
+
+settingsdRouter.post('/upload', upload.single("avatar"), (req, res)=> {
+
+	return res.json("File Uploaded Successfully!");
+});
 
 module.exports = settingsdRouter;

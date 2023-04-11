@@ -98,38 +98,8 @@
 		<!-- CUSTOM SCRIPTS -->
 		<script src="assets/js/custom.js"></script>
 		<script>
-			$(document).ready(function () {
-				let appOrigin = window.location.origin;
-				$('#update-profile').on('click', function () {
-					// var data = {
-					// 	modelName: 'users',
-					// 	_id: $('#userId').val(),
-					// 	email: $('#email').val(),
-					// 	bio: $('#bio').val(),
-					// };
-
-					// $.ajax({
-					// 	type: 'PUT',
-					// 	url: 'http://localhost:44444/update',
-					// 	data: JSON.stringify(data),
-					// 	contentType: 'application/json; charset=utf-8',
-					// 	success: function (res) {
-					// 		console.log(res);
-					// 	},
-					// 	errorf: function (err) {
-					// 		console.log(err);
-					// 	},
-					// 	statusCode: {
-					// 		400: function (e) {
-					// 			console.log(e);
-					// 		},
-					// 	},
-					// });
-					console.log('hellow rod.d');
-				});
-			});
-
 			function updateProfile() {
+				let appOrigin = window.location.origin;
 				var data = {
 					modelName: 'users',
 					_id: jQuery('#userId').val(),

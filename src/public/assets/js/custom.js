@@ -231,11 +231,11 @@
               if(confirm('Are you sure to upload the image?')){
 
                 const formData = new FormData();
-                formData.append('files', file);
+                formData.append('avatar', file);
 
                 jQuery.ajax({
 					type: 'POST',
-					url: appOrigin + '/settings/avatar',
+					url: appOrigin + '/settings/upload',
                     data: formData,
                     contentType: false,
                     cache: false,
