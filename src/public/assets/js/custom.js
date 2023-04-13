@@ -222,42 +222,47 @@
         let avatarFile = '';
 
         $(document).on('change', '#user-avatar', function(){
-          const file = this.files[0];
-          if (file){
-            let reader = new FileReader();
-            reader.onload = function(event){
-              $('#display-avatar').attr('src', event.target.result);
-              
-              if(confirm('Are you sure to upload the image?')){
 
-                const formData = new FormData();
-                formData.append('avatar', file);
+            let user_id = $("#user_id").val();
+            console.log( 'my user id==>', user_id);
 
-                jQuery.ajax({
-					type: 'POST',
-					url: appOrigin + '/settings/upload',
-                    data: formData,
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-					success: function (res) {
-                        console.log('upload response', res)
-                    },
-					errorf: function (err) {
-						jQuery('.error-show').html(err);
-					},
-					statusCode: {
-						400: function (e) {
-							jQuery('.error-show').html(e.responseText);
-						},
-					},
-				});
-              }
+            const file = this.files[0];
+            if (file){
+                let reader = new FileReader();
+                reader.onload = function(event){
+                $('#display-avatar').attr('src', event.target.result);
+                
+                if(confirm('Are you sure to upload the image?')){
+
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+                    formData.append('user_id', user_id);
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: appOrigin + '/settings/upload',
+                        data: formData,
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success: function (res) {
+                            console.log(res)
+                        },
+                        errorf: function (err) {
+                            jQuery('.error-show').html(err);
+                        },
+                        statusCode: {
+                            400: function (e) {
+                                jQuery('.error-show').html(e.responseText);
+                            },
+                        },
+                    });
+                }
+                }
+        
+                avatarFile = file;
+                reader.readAsDataURL(file);
             }
-      
-            avatarFile = file;
-            reader.readAsDataURL(file);
-          }
         });
     });
 

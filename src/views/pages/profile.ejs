@@ -67,7 +67,7 @@
 													</textarea
 													>
 												</div>
-												<input type="hidden" id="userId" value="<%= item._id %>" />
+												<input type="hidden" id="user_id" value="<%= item._id %>" />
 												<button type="button" id="update-profile" onclick="updateProfile()">
 													Update
 												</button>
@@ -102,7 +102,7 @@
 				let appOrigin = window.location.origin;
 				var data = {
 					modelName: 'users',
-					_id: jQuery('#userId').val(),
+					_id: jQuery('#user_id').val(),
 					name: jQuery('#name').val(),
 					email: jQuery('#email').val(),
 					bio: jQuery('#bio').val(),

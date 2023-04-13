@@ -31,6 +31,11 @@ const UserSchema = new mongoose.Schema({
     max: 2000,
   },
 
+  avatar : {
+    type: String,
+    required: false
+  }
+
 }, {
   timestamps: true
 })

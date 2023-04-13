@@ -31,10 +31,7 @@ var storage = multer.diskStorage({
   })
 
 const fs = require('fs');
-// const upload = multer({dest : './image'});
 const upload = multer({ storage: storage });
-
-
 
 settingsdRouter.get("/", auth, async (req, res) => {
     const item = await getById(req.user._id, 'users');
@@ -52,9 +49,16 @@ settingsdRouter.put("/update", (req, res, next) => {
     });
 })
 
-settingsdRouter.post('/upload', upload.single("avatar"), (req, res)=> {
+settingsdRouter.post('/upload', upload.single("avatar"), (req, res, next)=> {
 
-	return res.json("File Uploaded Successfully!");
+  const body = {
+    modelName: 'users',
+    _id: req.body.user_id,
+    avatar: req.file.filename
+  }
+
+  updateHandler(body, res, next);
+
 });
 
 module.exports = settingsdRouter;
