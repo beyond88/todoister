@@ -20,17 +20,18 @@ const {
 const auth = require("../middleware/auth");
 const multer = require('multer');
 var path = require('path');
+let fsExtra = require('fs-extra');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './image')
+      cb(null, './image');
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
     }
   })
 
-const fs = require('fs');
+
 const upload = multer({ storage: storage });
 
 settingsdRouter.get("/", auth, async (req, res) => {
@@ -45,7 +46,7 @@ settingsdRouter.get("/reset-password", auth, (req, res) => {
 settingsdRouter.put("/update", (req, res, next) => {
     const item = updateHandler(req.body, res, next);
     return res.status(200).send({
-        res: item
+      res: item
     });
 })
 
