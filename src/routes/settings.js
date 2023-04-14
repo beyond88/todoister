@@ -39,15 +39,16 @@ settingsdRouter.get("/", auth, async (req, res) => {
     res.render('pages/profile', {item: item});
 })
 
-settingsdRouter.get("/reset-password", auth, (req, res) => {
-    res.render('pages/reset-password');
+settingsdRouter.get("/reset-password", auth, async (req, res) => {
+  const item = await getById(req.user._id, 'users');
+  res.render('pages/reset-password', {item: item});
 })
 
 settingsdRouter.put("/update", (req, res, next) => {
-    const item = updateHandler(req.body, res, next);
-    return res.status(200).send({
-      res: item
-    });
+  const item = updateHandler(req.body, res, next);
+  return res.status(200).send({
+    res: item
+  });
 })
 
 settingsdRouter.post('/upload', upload.single("avatar"), (req, res, next)=> {

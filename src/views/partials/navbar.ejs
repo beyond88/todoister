@@ -2,12 +2,21 @@
 	<div class="sidebar-collapse">
 		<ul class="nav" id="main-menu">
 			<li class="text-center">
+				<% if(item.avatar){ %>
+				<img
+					src="assets/img/<%- item.avatar; %>"
+					class="user-image img-responsive"
+					id="display-avatar"
+					style="cursor: pointer"
+				/>
+				<% } else { %>
 				<img
 					src="assets/img/find_user.png"
 					class="user-image img-responsive"
 					id="display-avatar"
 					style="cursor: pointer"
 				/>
+				<% } %>
 				<input
 					type="file"
 					name="user-avatar"
@@ -17,6 +26,7 @@
 					style="display: none"
 				/>
 			</li>
+
 			<li>
 				<a class="active-menu" href="/dashboard"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
 			</li>
