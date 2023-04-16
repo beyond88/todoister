@@ -23,25 +23,31 @@ var path = require('path');
 let fsExtra = require('fs-extra');
 
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './image');
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
-    }
-  })
-
+  destination: function (req, file, cb) {
+    cb(null, './image');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+  }
+});
 
 const upload = multer({ storage: storage });
 
 settingsdRouter.get("/", auth, async (req, res) => {
-    const item = await getById(req.user._id, 'users');
-    res.render('pages/profile', {item: item});
-})
+  const item = await getById(req.user._id, 'users');
+  res.render('pages/profile', {item: item});
+});
 
 settingsdRouter.get("/reset-password", auth, async (req, res) => {
   const item = await getById(req.user._id, 'users');
   res.render('pages/reset-password', {item: item});
+});
+
+settingsdRouter.post("/reset-password", async (req, res, next) => {
+  const item = updateHandler(req.body, res, next);
+  return res.status(200).send({
+    res: item
+  });
 })
 
 settingsdRouter.put("/update", (req, res, next) => {
