@@ -272,8 +272,40 @@
 
 
             if( currentPassword == '' || newPassword == '' || confirmPassword == '' ) {
-                alert('All fields are required!')
+                alert('All fields are required!');
+                return;
             }
+
+            let user_id = $("#user_id").val();
+
+            let data = {
+                user_id : user_id,
+                current_password: currentPassword,
+                new_password: newPassword,
+                confirm_password: confirmPassword
+            }
+
+            jQuery.ajax({
+                type: 'POST',
+                url: appOrigin + '/settings/reset-password',
+                data: data,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                processData:false,
+                success: function (res) {
+                    console.log(res)
+                },
+                errorf: function (err) {
+                    jQuery('.error-show').html(err);
+                },
+                statusCode: {
+                    400: function (e) {
+                        jQuery('.error-show').html(e.responseText);
+                    },
+                },
+            });
+
+
         });
 
     });
