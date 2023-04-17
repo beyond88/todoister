@@ -209,24 +209,23 @@
 
     }
     // Initializing ///
-
     $(document).ready(function () {
         mainApp.main_fun();
 
         let appOrigin = window.location.origin;
 
+        // Change avatar
         $(document).on('click', '#display-avatar', function () {
 			document.getElementById('user-avatar').click();
 		});
 
         let avatarFile = '';
 
-        $(document).on('change', '#user-avatar', function(){
+        $(document).on('change', '#user-avatar', function() {
 
             let user_id = $("#user_id").val();
-            console.log( 'my user id==>', user_id);
-
             const file = this.files[0];
+
             if (file){
                 let reader = new FileReader();
                 reader.onload = function(event){
@@ -264,6 +263,19 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        $(document).on('click', '#update-password', function() {
+            
+            let currentPassword = $("#current-password").val();
+            let newPassword = $("#new-password").val();
+            let confirmPassword = $("#confirm-password").val();
+
+
+            if( currentPassword == '' || newPassword == '' || confirmPassword == '' ) {
+                alert('All fields are required!')
+            }
+        });
+
     });
 
 }(jQuery));
