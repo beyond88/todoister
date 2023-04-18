@@ -296,13 +296,12 @@
             });
 
             let token = getCookie('resetToken');
-            console.log('got reset token==>', token);
 
             jQuery.ajax({
                 type: 'POST',
                 url: appOrigin + '/settings/reset-password',
                 data: {
-                    token : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzI1YzJhZjNiMTNlOWM2OTg4N2QyMiIsImV4cCI6bnVsbCwiaWF0IjoxNjgxNzkzNTAyfQ._7F48o47hVZzxej9yJi4hZwqJA82-rQfm0B4JQw__rU',
+                    token : token,
                     password: newPassword,
                 },
                 success: function (res) {
