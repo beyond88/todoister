@@ -276,22 +276,12 @@
                 return;
             }
 
-            let user_id = $("#user_id").val();
-
-            let data = {
-                user_id : user_id,
-                current_password: currentPassword,
-                new_password: newPassword,
-                confirm_password: confirmPassword
-            }
-
             jQuery.ajax({
                 type: 'POST',
-                url: appOrigin + '/settings/reset-password',
-                data: data,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                processData:false,
+                url: appOrigin + '/settings/forgot-password',
+                data: {
+                    email : 'muhin.cse.diu@gmail.com'
+                },
                 success: function (res) {
                     console.log(res)
                 },
@@ -305,8 +295,40 @@
                 },
             });
 
+            let token = getCookie('resetToken');
+            console.log('got reset token==>', token);
+
+            jQuery.ajax({
+                type: 'POST',
+                url: appOrigin + '/settings/reset-password',
+                data: {
+                    token : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzI1YzJhZjNiMTNlOWM2OTg4N2QyMiIsImV4cCI6bnVsbCwiaWF0IjoxNjgxNzkzNTAyfQ._7F48o47hVZzxej9yJi4hZwqJA82-rQfm0B4JQw__rU',
+                    password: newPassword,
+                },
+                success: function (res) {
+                    console.log(res)
+                },
+                errorf: function (err) {
+                    jQuery('.error-show').html(err);
+                },
+                statusCode: {
+                    400: function (e) {
+                        jQuery('.error-show').html(e.responseText);
+                    },
+                },
+            });
 
         });
+
+        function getCookie(name){
+            var pattern = RegExp(name + "=.[^;]*")
+            var matched = document.cookie.match(pattern)
+            if(matched){
+                var cookie = matched[0].split('=')
+                return cookie[1]
+            }
+            return false
+        }
 
     });
 
