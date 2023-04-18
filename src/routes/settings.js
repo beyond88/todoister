@@ -8,7 +8,7 @@ const {
     deleteHandler,
   } = require("../core/controller");
 
-  const {
+const {
     getById,
     search,
     count,
@@ -16,6 +16,10 @@ const {
     update,
     deleteById,
   } = require("../core/repository");
+
+const {
+  resetPasswordHandler,
+  } = require("../controllers/auth.controller")
 
 const auth = require("../middleware/auth");
 const multer = require('multer');
@@ -43,12 +47,7 @@ settingsdRouter.get("/reset-password", auth, async (req, res) => {
   res.render('pages/reset-password', {item: item});
 });
 
-settingsdRouter.post("/reset-password", async (req, res, next) => {
-  const item = updateHandler(req.body, res, next);
-  return res.status(200).send({
-    res: item
-  });
-})
+settingsdRouter.post("/reset-password", resetPasswordHandler)
 
 settingsdRouter.put("/update", (req, res, next) => {
   const item = updateHandler(req.body, res, next);
