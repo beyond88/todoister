@@ -30,8 +30,6 @@ exports.signup = async (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       userObj.accountActivationToken = token;
       await update(userObj, 'users')
-      
-      //res.header("auth-token", token).send(token);
 
       res.status(200).send({
         status: "ok",
@@ -62,7 +60,12 @@ exports.signin = async (req, res) => {
                   });
                 }
 
-                const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN });
+                const token = jwt.sign(
+                  { _id: user._id }, 
+                  process.env.JWT_SECRET, 
+                  { exp: Math.floor(Date.now() / 1000) +
+                  parseInt(process.env.JWT_EXPIRES_IN, 10) }
+                );
                 res.cookie("jwtoken", token);
 
                 res.status(200).send({
@@ -127,8 +130,9 @@ exports.verifyTokenHandler = async (req, res) => {
 
 };
 
-const forgotPasswordHandler = async (req, res) => {
+exports.forgotPasswordHandler = async (req, res) => {
   if (req.body.email) {
+    let ModelName = 'users';
     const user = await searchOne({ email: req.body.email }, ModelName);
     if (user) {
       const token = jwt.sign(
@@ -142,11 +146,12 @@ const forgotPasswordHandler = async (req, res) => {
       );
       user.passwordResetToken = token;
       await update(user, ModelName);
-      await sendPasswordResetEmail(
-        req.body.email,
-        "Password reset",
-        token
-      );
+      res.cookie("resetToken", token);
+      // await sendPasswordResetEmail(
+      //   req.body.email,
+      //   "Password reset",
+      //   token
+      // );
       return res
         .status(200)
         .send({ status: "ok", message: "Email sent successfully" });
@@ -162,6 +167,7 @@ const forgotPasswordHandler = async (req, res) => {
 exports.resetPasswordHandler = async (req, res) => {
   const { token, password } = req.body;
   if (token && password) {
+    let ModelName = 'users';
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
@@ -180,13 +186,16 @@ exports.resetPasswordHandler = async (req, res) => {
     } catch (error) {
       return res.status(400).send({
         status: "error",
-        message: "Invalid token",
+        message: "Invalid token1",
+        token: token,
+        password: password,
+        error: error
       });
     }
   }
   return res.status(400).send({
     status: "error",
-    message: "Invalid token",
+    message: "Invalid token2",
   });
 };
 
