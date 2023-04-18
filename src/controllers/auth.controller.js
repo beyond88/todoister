@@ -135,8 +135,8 @@ const forgotPasswordHandler = async (req, res) => {
         {
           id: user._id,
           exp:
-            Math.floor(Date.now() / 1000) +
-            parseInt(process.env.JWT_EXPIRES_IN, 10),
+          Math.floor(Date.now() / 1000) +
+          parseInt(process.env.JWT_EXPIRES_IN, 10),
         },
         process.env.JWT_SECRET
       );
