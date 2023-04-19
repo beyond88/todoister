@@ -27,7 +27,9 @@ exports.signup = async (req, res, next) => {
     try {
       
       const userObj = await user.save();
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
+      parseInt(process.env.JWT_EXPIRES_IN, 10) });
       userObj.accountActivationToken = token;
       await update(userObj, 'users')
 
@@ -61,11 +63,8 @@ exports.signin = async (req, res) => {
                 }
 
                 const token = jwt.sign(
-                  { _id: user._id }, 
-                  process.env.JWT_SECRET, 
-                  { exp: Math.floor(Date.now() / 1000) +
-                  parseInt(process.env.JWT_EXPIRES_IN, 10) }
-                );
+                  { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
+                parseInt(process.env.JWT_EXPIRES_IN, 10) });
                 res.cookie("jwtoken", token);
 
                 res.status(200).send({
@@ -136,14 +135,8 @@ exports.forgotPasswordHandler = async (req, res) => {
     const user = await searchOne({ email: req.body.email }, ModelName);
     if (user) {
       const token = jwt.sign(
-        {
-          id: user._id,
-          exp:
-          Math.floor(Date.now() / 1000) +
-          parseInt(process.env.JWT_EXPIRES_IN, 10),
-        },
-        process.env.JWT_SECRET
-      );
+        { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
+      parseInt(process.env.JWT_EXPIRES_IN, 10) });
       user.passwordResetToken = token;
       await update(user, ModelName);
       res.cookie("resetToken", token);
