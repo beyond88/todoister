@@ -1,8 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
-const { update, searchOne } = require("../core/repository");
-const User = require("../models/UserModel");
+const { update, searchOne, getById } = require("../core/repository");
+const User = require("../models/userModel");
 
 exports.signup = async (req, res, next) => {
     const { error } = registerSchema.validate(req.body);
@@ -66,6 +66,15 @@ exports.signin = async (req, res) => {
                   { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
                 parseInt(process.env.JWT_EXPIRES_IN, 10) });
                 res.cookie("jwtoken", token);
+                
+                let lastLogin = user.lastLogin;
+                lastLogin = new Date(lastLogin).toLocaleDateString('en-GB', {
+                  day : 'numeric',
+                  month : 'short',
+                  year : 'numeric'
+                }).split(' ').join('-');
+                
+                res.cookie("lastLogin", lastLogin);
 
                 res.status(200).send({
                   status: "ok",
@@ -90,9 +99,19 @@ exports.signin = async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
+
+  const item = await getById(req.user._id, 'users');
+
+  let body = {
+		_id: item.id,
+    lastLogin: Date.now()
+  }
+  let modelName ='users';
+  const id = await update(body, modelName);
   await res.status(200).clearCookie('jwtoken', {
     path: '/'
   }).redirect('/user/login');
+
 };
 
 exports.verifyTokenHandler = async (req, res) => {

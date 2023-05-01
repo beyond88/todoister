@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const controller = require("../controllers/auth.controller");
+const auth = require("../middleware/auth");
 
 router.get("/login", (req, res) => {
     res.render('pages/login');
@@ -11,7 +12,7 @@ router.get("/register", (req, res) => {
 })
 router.post("/register", controller.signup)
 
-router.get("/logout", controller.signout)
+router.get("/logout", auth, controller.signout)
 
 // router.post("/forgot-password", controller.forgotPasswordHandler);
 router.post("/verify-token", controller.verifyTokenHandler);
