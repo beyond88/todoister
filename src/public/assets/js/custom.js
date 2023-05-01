@@ -322,10 +322,15 @@
     }
 
     if( $.fn.checkCooke('lastLogin') ) {
-
         let lastLogin = $.fn.checkCooke('lastLogin');
-        console.log('I got it ==>', lastLogin);
+        var local = new Date(lastLogin).toLocaleDateString('en-GB', {
+            day : 'numeric',
+            month : 'short',
+            year : 'numeric'
+        }).split(' ').join('-');
+        $("#todoister-last-login").text(local)
 
+        console.log('I got it ==>', local);
     }
 
 }(jQuery));

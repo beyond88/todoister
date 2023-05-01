@@ -66,7 +66,15 @@ exports.signin = async (req, res) => {
                   { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
                 parseInt(process.env.JWT_EXPIRES_IN, 10) });
                 res.cookie("jwtoken", token);
-                res.cookie("lastLogin", user.lastLogin);
+                
+                let lastLogin = user.lastLogin;
+                lastLogin = new Date(lastLogin).toLocaleDateString('en-GB', {
+                  day : 'numeric',
+                  month : 'short',
+                  year : 'numeric'
+                }).split(' ').join('-');
+                
+                res.cookie("lastLogin", lastLogin);
 
                 res.status(200).send({
                   status: "ok",
