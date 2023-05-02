@@ -204,8 +204,6 @@
 			document.getElementById('user-avatar').click();
 		});
 
-        let avatarFile = '';
-
         $(document).on('change', '#user-avatar', function() {
 
             let user_id = $("#user_id").val();
@@ -261,26 +259,7 @@
                 return;
             }
 
-            jQuery.ajax({
-                type: 'POST',
-                url: appOrigin + '/settings/forgot-password',
-                data: {
-                    email : 'muhin.cse.diu@gmail.com'
-                },
-                success: function (res) {
-                    console.log(res)
-                },
-                errorf: function (err) {
-                    jQuery('.error-show').html(err);
-                },
-                statusCode: {
-                    400: function (e) {
-                        jQuery('.error-show').html(e.responseText);
-                    },
-                },
-            });
-
-            let token = getCookie('resetToken');
+            let token = $.fn.checkCookie('resetToken');
 
             jQuery.ajax({
                 type: 'POST',
@@ -304,33 +283,21 @@
 
         });
 
-        function getCookie(name){
-            var pattern = RegExp(name + "=.[^;]*")
-            var matched = document.cookie.match(pattern)
-            if(matched){
-                var cookie = matched[0].split('=')
-                return cookie[1]
-            }
-            return false
-        }
-
     });
 
-    $.fn.checkCooke = function(name) {
+    $.fn.checkCookie = function(name) {
         var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
         return match ? match[1] : null;
     }
 
-    if( $.fn.checkCooke('lastLogin') ) {
-        let lastLogin = $.fn.checkCooke('lastLogin');
+    if( $.fn.checkCookie('lastLogin') ) {
+        let lastLogin = $.fn.checkCookie('lastLogin');
         var local = new Date(lastLogin).toLocaleDateString('en-GB', {
             day : 'numeric',
             month : 'short',
             year : 'numeric'
         }).split(' ').join('-');
         $("#todoister-last-login").text(local)
-
-        console.log('I got it ==>', local);
     }
 
 }(jQuery));
