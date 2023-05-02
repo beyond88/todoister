@@ -179,10 +179,10 @@ exports.forgotPasswordHandler = async (req, res) => {
 exports.resetPasswordHandler = async (req, res) => {
   const { token, password } = req.body;
   if (token && password) {
-    let ModelName = 'users';
+    let modelName = 'users';
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await searchOne({ _id: ObjectId(decoded.id) }, ModelName);
+      const user = await searchOne({ _id: ObjectId(decoded.id) }, modelName);
       if (user) {
         const tokenValid = token === user.passwordResetToken;
         if (tokenValid) {
