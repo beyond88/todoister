@@ -199,6 +199,21 @@
 
         let appOrigin = window.location.origin;
 
+        $.fn.checkCookie = function(name) {
+            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
+            return match ? match[1] : null;
+        }
+    
+        if( $.fn.checkCookie('lastLogin') ) {
+            let lastLogin = $.fn.checkCookie('lastLogin');
+            var local = new Date(lastLogin).toLocaleDateString('en-GB', {
+                day : 'numeric',
+                month : 'short',
+                year : 'numeric'
+            }).split(' ').join('-');
+            $("#todoister-last-login").text(local)
+        }
+
         // Change avatar
         $(document).on('click', '#display-avatar', function () {
 			document.getElementById('user-avatar').click();
@@ -252,53 +267,58 @@
             let currentPassword = $("#current-password").val();
             let newPassword = $("#new-password").val();
             let confirmPassword = $("#confirm-password").val();
-
+            let email = localStorage.getItem('email'); 
+            console.log('current email==>', email);
 
             if( currentPassword == '' || newPassword == '' || confirmPassword == '' ) {
                 alert('All fields are required!');
                 return;
             }
 
-            let token = $.fn.checkCookie('resetToken');
+            // jQuery.ajax({
+            //     type: 'POST',
+            //     url: appOrigin + '/settings/forgot-password',
+            //     data: {
+            //         email : email
+            //     },
+            //     success: function (res) {
+            //         console.log(res)
+            //     },
+            //     errorf: function (err) {
+            //         jQuery('.error-show').html(err);
+            //     },
+            //     statusCode: {
+            //         400: function (e) {
+            //             jQuery('.error-show').html(e.responseText);
+            //         },
+            //     },
+            // });
 
-            jQuery.ajax({
-                type: 'POST',
-                url: appOrigin + '/settings/reset-password',
-                data: {
-                    token : token,
-                    password: newPassword,
-                },
-                success: function (res) {
-                    console.log(res)
-                },
-                errorf: function (err) {
-                    jQuery('.error-show').html(err);
-                },
-                statusCode: {
-                    400: function (e) {
-                        jQuery('.error-show').html(e.responseText);
-                    },
-                },
-            });
+            // let token = $.fn.checkCookie('resetToken');
+
+            // jQuery.ajax({
+            //     type: 'POST',
+            //     url: appOrigin + '/settings/reset-password',
+            //     data: {
+            //         token : token,
+            //         password: newPassword,
+            //     },
+            //     success: function (res) {
+            //         console.log(res)
+            //     },
+            //     errorf: function (err) {
+            //         jQuery('.error-show').html(err);
+            //     },
+            //     statusCode: {
+            //         400: function (e) {
+            //             jQuery('.error-show').html(e.responseText);
+            //         },
+            //     },
+            // });
 
         });
 
     });
-
-    $.fn.checkCookie = function(name) {
-        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
-        return match ? match[1] : null;
-    }
-
-    if( $.fn.checkCookie('lastLogin') ) {
-        let lastLogin = $.fn.checkCookie('lastLogin');
-        var local = new Date(lastLogin).toLocaleDateString('en-GB', {
-            day : 'numeric',
-            month : 'short',
-            year : 'numeric'
-        }).split(' ').join('-');
-        $("#todoister-last-login").text(local)
-    }
 
 }(jQuery));
 

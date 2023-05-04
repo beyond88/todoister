@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
 const { update, searchOne, getById } = require("../core/repository");
 const User = require("../models/userModel");
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
 
 exports.signup = async (req, res, next) => {
     const { error } = registerSchema.validate(req.body);
@@ -66,6 +68,8 @@ exports.signin = async (req, res) => {
                   { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
                 parseInt(process.env.JWT_EXPIRES_IN, 10) });
                 res.cookie("jwtoken", token);
+                // localStorage.setItem("jwtoken", token);
+                localStorage.setItem("email", req.body.email);
                 
                 let lastLogin = user.lastLogin;
                 lastLogin = new Date(lastLogin).toLocaleDateString('en-GB', {
@@ -153,8 +157,7 @@ exports.forgotPasswordHandler = async (req, res) => {
     let ModelName = 'users';
     const user = await searchOne({ email: req.body.email }, ModelName);
     if (user) {
-      const token = jwt.sign(
-        { _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: Math.floor(Date.now() / 1000) +
       parseInt(process.env.JWT_EXPIRES_IN, 10) });
       user.passwordResetToken = token;
       await update(user, ModelName);

@@ -48,7 +48,7 @@ settingsdRouter.get("/reset-password", auth, async (req, res) => {
   res.render('pages/reset-password', {item: item});
 });
 
-// settingsdRouter.post("/forgot-password", forgotPasswordHandler)
+settingsdRouter.post("/forgot-password", forgotPasswordHandler)
 settingsdRouter.post("/reset-password", resetPasswordHandler)
 
 settingsdRouter.put("/update", (req, res, next) => {
